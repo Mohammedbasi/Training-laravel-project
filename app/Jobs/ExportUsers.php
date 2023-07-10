@@ -28,9 +28,25 @@ class ExportUsers implements ShouldQueue
      */
     public function handle(): void
     {
+        // define the name of the log file
+        $logFile = storage_path('logs/database.log');
+
+        // open the file to append data
+        $openedFile = fopen($logFile, 'a');
+
         // get the users
-        $users = DB::select ('SELECT * FROM users');
+        $users = DB::table('users')
+            ->select('id', 'name', 'email')
+            ->orderBy('id')
+            ->chunk(50, function ($records) use ($openedFile) {
+                foreach ($records as $record) {
+                    $logData = "Id: $record->id, Name: $record->name, Email: $record->email";
+                    // PHP_EOL for new line (\n)
+                    fwrite($openedFile, $logData . PHP_EOL);
+                }
+            });
+        fclose($openedFile);
         // store the users in a log file
-        Log::channel('database')->info('Exporting users result',['users'=>$users]);
+         Log::channel('database')->info('Exporting Users Completed Successfully');
     }
 }
