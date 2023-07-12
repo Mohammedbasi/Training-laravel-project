@@ -29,7 +29,7 @@ class UserController extends Controller
             'password' => $password,
         ]);
         $user = User::create($request->all())->save();
-        return redirect()->route('index')->with('success', 'User Created');
+        return redirect()->route('user.index')->with('success', 'User Created');
     }
 
     public function edit(string $id)
@@ -37,7 +37,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
         } catch (Exception $e) {
-            return redirect()->route('index')->with('info', 'Page not found . . .');
+            return redirect()->route('user.index')->with('info', 'Page not found . . .');
         }
         return view('users.edit', compact('user'));
     }
@@ -45,9 +45,13 @@ class UserController extends Controller
     public function update(UserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
+        $password = Hash::make($request->post('password'));
+        $request->merge([
+            'password' => $password,
+        ]);
         $user->update($request->all());
 
-        return redirect()->route('index')->with('success', 'User Updated . . .');
+        return redirect()->route('user.index')->with('success', 'User Updated . . .');
     }
 
     public function delete(string $id)
@@ -55,7 +59,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('index')->with('success', 'User Deleted . . .');
+        return redirect()->route('user.index')->with('success', 'User Deleted . . .');
     }
 
     public function trash()
@@ -68,13 +72,13 @@ class UserController extends Controller
     {
         $user = User::onlyTrashed()->findOrFail($id);
         $user->restore();
-        return redirect()->route('trash')->with('success', 'User restored!');
+        return redirect()->route('user.trash')->with('success', 'User restored!');
     }
 
     public function forceDelete(string $id)
     {
         $user = User::onlyTrashed()->findOrFail($id);
         $user->forceDelete();
-        return redirect()->route('trash')->with('success', 'User deleted forever!');
+        return redirect()->route('user.trash')->with('success', 'User deleted forever!');
     }
 }

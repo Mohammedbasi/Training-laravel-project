@@ -1,13 +1,10 @@
 @extends('layouts.layout')
 
 @section('content')
+    <x-app-layout>
+
     @include('layouts.alert',['type'=>'success'])
     @include('layouts.alert',['type'=>'info'])
-
-    <div>
-        <a href="{{ route('create') }}" class="btn btn-primary mb-3 ml-3 mx-3">Create</a>
-        <a href="{{ route('trash') }}" class="btn btn-dark mb-3 ml-3 mx-3">Trash</a>
-    </div>
 
     <table class="table">
         <thead>
@@ -37,10 +34,10 @@
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
                 <td>
-                    <a href="{{ route('edit',$user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                    <a href="{{ route('user.edit',$user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
                 <td>
-                    <form action="{{ route('delete',$user->id) }}" method="post">
+                    <form action="{{ route('user.delete',$user->id) }}" method="post">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -56,5 +53,5 @@
     </table>
     {{ $users->links()}}
     <!-- REQUIRED SCRIPTS -->
-
+    </x-app-layout>
 @endsection

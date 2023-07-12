@@ -1,13 +1,3 @@
-@if($errors->any())
-    <div class="alert alert-danger">
-        <h3>Error Occurred</h3>
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <div class="form-group">
     <label for="">Username</label>
@@ -29,6 +19,7 @@
     <input type="text" name="last_name" value="{{ old('last_name',$user->last_name??'') }}" class="form-control @error('last_name') is-invalid @enderror" />
     @include('layouts.error',['field'=>'last_name'])
 </div>
+@if(!isset($showPass))
 <div class="form-group">
     <label for="">Password</label>
     <input type="password" name="password" value="{{ old('password',$user->password??'') }}" class="form-control @error('password') is-invalid @enderror" />
@@ -39,6 +30,8 @@
     <input type="password" name="password_conf" value="{{ old('password_conf',$user->password??'') }}" class="form-control @error('password_conf') is-invalid @enderror" />
     @include('layouts.error',['field'=>'password_conf'])
 </div>
+@endif
+@if(!isset($show))
 <div class="form-group">
     <label for="">Status</label>
     <select name="is_active" class="form-control form-select">
@@ -54,5 +47,6 @@
     </select>
 </div>
 <div class="form-group">
-    <button type="submit" class="btn btn-primary">{{ $button_label??'Create' }}</button>
+    <x-primary-button >{{ $button_label??'Create' }}</x-primary-button>
 </div>
+@endif

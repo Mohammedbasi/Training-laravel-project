@@ -18,7 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 </head>
 
-<body>
+<body class="mx-3">
 
 @yield('content')
 
