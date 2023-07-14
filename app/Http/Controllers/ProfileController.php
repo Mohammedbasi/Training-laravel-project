@@ -16,22 +16,25 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('profile.partials.update-profile-information-form', [
             'user' => $request->user(),
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->all());
-
         $request->user()->save();
-
         return Redirect::route('profile.edit')->with('success', 'profile-updated');
     }
+
+    public function delete(Request $request): View
+    {
+        return view('profile.partials.delete-user-form', [
+            'user' => $request->user(),
+        ]);
+    }
+
 
     /**
      * Delete the user's account.

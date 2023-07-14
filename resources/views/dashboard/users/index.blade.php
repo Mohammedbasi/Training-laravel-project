@@ -1,8 +1,10 @@
-@extends('layouts.layout')
+@extends('layouts.dashboard')
 
 @section('content')
-    <x-app-layout>
-
+    @include('layouts.partials.titles',[
+    'h1'=>'Users',
+    'baseBread'=>'Users',
+])
     @include('layouts.alert',['type'=>'success'])
     @include('layouts.alert',['type'=>'info'])
 
@@ -17,7 +19,6 @@
             <th>Status</th>
             <th>Role</th>
             <th>Created At</th>
-            <th>Updated At</th>
             <th colspan="2">Actions</th>
         </tr>
         </thead>
@@ -32,7 +33,6 @@
                 <td>{{ $user->is_active==1?'Active':'Inactive' }}</td>
                 <td>{{ $user->is_admin ==1?'Admin':'User' }}</td>
                 <td>{{ $user->created_at }}</td>
-                <td>{{ $user->updated_at }}</td>
                 <td>
                     <a href="{{ route('user.edit',$user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
@@ -46,12 +46,11 @@
             </tr>
         @empty
             <tr>
-                <td colspan="6">No categories defined.</td>
+                <td colspan="5">No categories defined.</td>
             </tr>
         @endforelse
         </tbody>
     </table>
     {{ $users->links()}}
     <!-- REQUIRED SCRIPTS -->
-    </x-app-layout>
 @endsection

@@ -46,7 +46,4 @@
         <option @selected(old('is_admin',$user->is_admin??'') == 1) value="1">Admin</option>
     </select>
 </div>
-<div class="form-group">
-    <x-primary-button >{{ $button_label??'Create' }}</x-primary-button>
-</div>
 @endif

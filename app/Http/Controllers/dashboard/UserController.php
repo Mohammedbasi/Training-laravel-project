@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\dashboard;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::paginate(10);
-        return view('users.index', compact('users'));
+        return view('dashboard.users.index', compact('users'));
     }
 
     public function create()
     {
-        return view('users.create');
+        return view('dashboard.users.create');
     }
 
     public function store(UserRequest $request)
@@ -39,16 +41,12 @@ class UserController extends Controller
         } catch (Exception $e) {
             return redirect()->route('user.index')->with('info', 'Page not found . . .');
         }
-        return view('users.edit', compact('user'));
+        return view('dashboard.users.edit', compact('user'));
     }
 
-    public function update(UserRequest $request, string $id)
+    public function update(UserEditRequest $request, string $id)
     {
         $user = User::findOrFail($id);
-        $password = Hash::make($request->post('password'));
-        $request->merge([
-            'password' => $password,
-        ]);
         $user->update($request->all());
 
         return redirect()->route('user.index')->with('success', 'User Updated . . .');
@@ -65,7 +63,7 @@ class UserController extends Controller
     public function trash()
     {
         $users = User::onlyTrashed()->paginate(10);
-        return view('users.softDelete', compact('users'));
+        return view('dashboard.users.softDelete', compact('users'));
     }
 
     public function restore(string $id)

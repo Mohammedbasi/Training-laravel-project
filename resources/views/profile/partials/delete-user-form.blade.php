@@ -1,3 +1,5 @@
+@extends('layouts.dashboard')
+@section('content')
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -53,3 +55,4 @@
         </form>
     </x-modal>
 </section>
+@endsection

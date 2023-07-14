@@ -16,6 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @if(\Illuminate\Support\Facades\Auth::user()->is_admin == 1)
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('Users') }}
@@ -31,6 +32,7 @@
                         {{ __('Trash') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

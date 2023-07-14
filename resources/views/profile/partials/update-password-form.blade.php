@@ -1,3 +1,5 @@
+@extends('layouts.dashboard')
+@section('content')
 <section>
     @include('layouts.alert',['type'=>'success'])
     <header>
@@ -47,3 +49,4 @@
         </div>
     </form>
 </section>
+@endsection

@@ -1,7 +1,11 @@
-@extends('layouts.layout')
+@extends('layouts.dashboard')
 
 @section('content')
-    <x-app-layout>
+    @include('layouts.partials.titles',[
+    'h1'=>'Trashed Users',
+    'baseBread'=>'Users',
+    'childBread'=>'Trash'
+])
         @include('layouts.alert',['type'=>'success'])
         @include('layouts.alert',['type'=>'info'])
 
@@ -58,5 +62,4 @@
         </form>
         {{ $users->links()}}
         <!-- REQUIRED SCRIPTS -->
-    </x-app-layout>
 @endsection

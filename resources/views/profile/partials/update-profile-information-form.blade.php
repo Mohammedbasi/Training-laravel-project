@@ -1,3 +1,5 @@
+@extends('layouts.dashboard')
+@section('content')
 <section>
     @include('layouts.alert',['type'=>'success'])
     <header>
@@ -21,8 +23,9 @@
     'button_label'=>'Update',
     'showPass'=>true
     ])
-        <div class="form-group">
-            <x-primary-button >Update</x-primary-button>
+        <div class="flex items-center gap-4">
+            <x-primary-button>{{ __('Update') }}</x-primary-button>
         </div>
     </form>
 </section>
+@endsection
