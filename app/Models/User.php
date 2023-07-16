@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Filters\User\FilterFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -95,4 +96,11 @@ class User extends Authenticatable
             ]
         ];
     }
+
+    public function scopeFilter(Builder $builder, $filters)
+    {
+        $filterable = new FilterFactory();
+        $filterable->baseFilter($builder, $filters);
+    }
+
 }

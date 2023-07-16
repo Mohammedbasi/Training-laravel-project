@@ -8,6 +8,28 @@
     @include('layouts.alert',['type'=>'success'])
     @include('layouts.alert',['type'=>'info'])
 
+    <form action="{{ URL::current() }}" method="get" class="d-flex justify-content-between mb-4">
+        <input type="text" name="username" value="{{ request('username') }}" placeholder="Username"
+               class="form-control mx-2"/>
+        <input type="email" name="email" value="{{ request('email') }}" placeholder="Email" class="form-control mx-2"/>
+        <input type="text" name="name" value="{{ request('name') }}" placeholder="Name"
+               class="form-control mx-2"/>
+
+        <select name="is_active" class="form-control mx-2">
+            <option value="">All</option>
+            <option value="active" @selected(request('is_active') == 'active')>Active</option>
+            <option value="inactive" @selected(request('is_active') == 'inactive')>In-active</option>
+        </select>
+
+        <select name="is_admin" class="form-control mx-2">
+            <option value="">All</option>
+            <option value="admin" @selected(request('is_admin') == 'admin')>Admin</option>
+            <option value="user" @selected(request('is_admin') == 'user')>User</option>
+        </select>
+
+        <button class="btn btn-dark mx-2">Filter</button>
+    </form>
+
     <table class="table">
         <thead>
         <tr>
@@ -51,6 +73,6 @@
         @endforelse
         </tbody>
     </table>
-    {{ $users->links()}}
+    {{ $users->withQueryString()->links()}}
     <!-- REQUIRED SCRIPTS -->
 @endsection
