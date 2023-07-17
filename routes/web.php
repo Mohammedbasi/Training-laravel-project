@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\VendorsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +45,13 @@ Route::group([
     Route::delete('/force-delete/{user}', [UserController::class, 'forceDelete'])->name('user.force-delete');
 });
 
+Route::group([
+    'middleware'=>'admin',
+],function (){
+    Route::get('vendors/trash', [VendorsController::class, 'trash'])->name('vendors.trash');
+    Route::put('vendors/restore/{user}', [VendorsController::class, 'restore'])->name('vendors.restore');
+    Route::delete('vendors/force-delete/{user}', [VendorsController::class, 'forceDelete'])->name('vendors.force-delete');
+    Route::resource('/vendors', VendorsController::class);
+});
 
 require __DIR__ . '/auth.php';

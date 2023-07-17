@@ -15,9 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $request = request();
-        $users = User::filter($request->only([
-            'username','email','name','is_active','is_admin'
-        ]))->paginate(10);
+        $users = User::filter($request->query())->paginate(10);
         return view('dashboard.users.index', compact('users'));
     }
 

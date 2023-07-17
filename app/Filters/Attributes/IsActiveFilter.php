@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filters\User\Attributes;
+namespace App\Filters\Attributes;
 
-use App\Filters\User\FilterInterface;
+use App\Filters\FilterInterface;
 
 class IsActiveFilter implements FilterInterface
 {

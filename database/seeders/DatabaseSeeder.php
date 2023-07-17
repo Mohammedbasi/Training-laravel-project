@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         //User::factory(500)->create();
-        $this->call(NewUserSeeder::class);
+        Vendor::factory(10)->create();
+        //$this->call(NewUserSeeder::class);
     }
 }

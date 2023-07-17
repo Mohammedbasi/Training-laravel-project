@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Filters\User\FilterFactory;
+use App\Filters\FilterFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -101,6 +102,11 @@ class User extends Authenticatable
     {
         $filterable = new FilterFactory();
         $filterable->baseFilter($builder, $filters);
+    }
+
+    public function address(): MorphOne
+    {
+        return $this->morphOne(Address::class,'addressable');
     }
 
 }

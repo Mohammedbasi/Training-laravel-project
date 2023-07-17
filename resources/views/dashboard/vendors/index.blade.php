@@ -2,17 +2,17 @@
 
 @section('content')
     @include('layouts.partials.titles',[
-    'h1'=>'Users',
-    'baseBread'=>'Users',
+    'h1'=>'Vendors',
+    'baseBread'=>'Vendors',
 ])
     @include('layouts.alert',['type'=>'success'])
     @include('layouts.alert',['type'=>'info'])
 
     <form action="{{ URL::current() }}" method="get" class="d-flex justify-content-between mb-4">
-        <input type="text" name="username" value="{{ request('username') }}" placeholder="Username"
-               class="form-control mx-2"/>
         <input type="email" name="email" value="{{ request('email') }}" placeholder="Email" class="form-control mx-2"/>
         <input type="text" name="name" value="{{ request('name') }}" placeholder="Name"
+               class="form-control mx-2"/>
+        <input type="text" name="phone" value="{{ request('phone') }}" placeholder="Phone"
                class="form-control mx-2"/>
 
         <select name="is_active" class="form-control mx-2">
@@ -21,11 +21,6 @@
             <option value="inactive" @selected(request('is_active') == 'inactive')>In-active</option>
         </select>
 
-        <select name="is_admin" class="form-control mx-2">
-            <option value="">All</option>
-            <option value="admin" @selected(request('is_admin') == 'admin')>Admin</option>
-            <option value="user" @selected(request('is_admin') == 'user')>User</option>
-        </select>
 
         <button class="btn btn-dark mx-2">Filter</button>
     </form>
@@ -34,32 +29,30 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Username</th>
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Status</th>
-            <th>Role</th>
+            <th>Phone</th>
             <th>Created At</th>
             <th colspan="2">Actions</th>
         </tr>
         </thead>
         <tbody>
-        @forelse($users as $user)
+        @forelse($vendors as $vendor)
             <tr>
-                <td>{{ $user->id}}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->first_name }}</td>
-                <td>{{ $user->last_name }}</td>
-                <td>{{ $user->is_active==1?'Active':'Inactive' }}</td>
-                <td>{{ $user->is_admin ==1?'Admin':'User' }}</td>
-                <td>{{ $user->created_at }}</td>
+                <td>{{ $vendor->id}}</td>
+                <td>{{ $vendor->email }}</td>
+                <td>{{ $vendor->first_name }}</td>
+                <td>{{ $vendor->last_name }}</td>
+                <td>{{ $vendor->is_active==1?'Active':'Inactive' }}</td>
+                <td>{{ $vendor->phone }}</td>
+                <td>{{ $vendor->created_at }}</td>
                 <td>
-                    <a href="{{ route('user.edit',$user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                    <a href="{{ route('vendors.edit',$vendor->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
                 <td>
-                    <form action="{{ route('user.delete',$user->id) }}" method="post">
+                    <form action="{{ route('vendors.destroy',$vendor->id) }}" method="post">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -68,11 +61,11 @@
             </tr>
         @empty
             <tr>
-                <td colspan="5">No Users defined.</td>
+                <td colspan="9">No Vendors defined.</td>
             </tr>
         @endforelse
         </tbody>
     </table>
-    {{ $users->withQueryString()->links()}}
+    {{ $vendors->withQueryString()->links()}}
     <!-- REQUIRED SCRIPTS -->
 @endsection

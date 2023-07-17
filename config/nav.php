@@ -31,4 +31,25 @@ return [
         'badge' => 'New',
         'user'=>false,
     ],
+    [
+        'icon' => 'nav-icon fas fa-tachometer-alt',
+        'route' => 'vendors.index',
+        'title' => 'Vendors',
+        'active' => 'vendors.index',
+        'user'=>false,
+    ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'vendors.create',
+        'title' => 'Create Vendor',
+        'active' => 'vendors.create',
+        'user'=>false,
+    ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'vendors.trash',
+        'title' => 'Vendors Trash',
+        'active' => 'vendors.trash',
+        'user'=>false,
+    ],
 ];
