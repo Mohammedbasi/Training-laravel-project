@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
@@ -33,6 +34,10 @@ Route::group([
     'prefix' => 'user',
     'middleware' => 'admin',
 ], function () {
+    Route::get('/address/{user}', [AddressController::class, 'edit'])
+        ->name('user.address.edit');
+    Route::put('/address/{user}', [AddressController::class, 'update'])
+        ->name('user.address.update');
     Route::get('all', [UserController::class, 'index'])->name('user.index');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/store', [UserController::class, 'store'])->name('user.store');
@@ -46,8 +51,12 @@ Route::group([
 });
 
 Route::group([
-    'middleware'=>'admin',
-],function (){
+    'middleware' => 'admin',
+], function () {
+    Route::get('vendors/address/{vendor}', [AddressController::class, 'edit'])
+        ->name('vendors.address.edit');
+    Route::put('vendors/address/{vendor}', [AddressController::class, 'update'])
+        ->name('vendors.address.update');
     Route::get('vendors/trash', [VendorsController::class, 'trash'])->name('vendors.trash');
     Route::put('vendors/restore/{user}', [VendorsController::class, 'restore'])->name('vendors.restore');
     Route::delete('vendors/force-delete/{user}', [VendorsController::class, 'forceDelete'])->name('vendors.force-delete');

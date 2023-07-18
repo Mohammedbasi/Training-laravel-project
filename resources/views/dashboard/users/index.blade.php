@@ -26,35 +26,43 @@
             <option value="admin" @selected(request('is_admin') == 'admin')>Admin</option>
             <option value="user" @selected(request('is_admin') == 'user')>User</option>
         </select>
-
+        <input type="text" name="address" value="{{ request('address') }}" placeholder="Address"
+               class="form-control mx-2"/>
         <button class="btn btn-dark mx-2">Filter</button>
     </form>
 
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Username</th>
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Status</th>
             <th>Role</th>
-            <th>Created At</th>
-            <th colspan="2">Actions</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>District</th>
+            <th colspan="3">Actions</th>
         </tr>
         </thead>
         <tbody>
         @forelse($users as $user)
             <tr>
-                <td>{{ $user->id}}</td>
                 <td>{{ $user->username }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->first_name }}</td>
                 <td>{{ $user->last_name }}</td>
                 <td>{{ $user->is_active==1?'Active':'Inactive' }}</td>
                 <td>{{ $user->is_admin ==1?'Admin':'User' }}</td>
-                <td>{{ $user->created_at }}</td>
+                <td> {{ $user->address->phone }} </td>
+                <td>{{$user->address->city->name}}</td>
+                <td>{{ $user->address->street }}</td>
+                <td>{{ $user->address->district }}</td>
+                <td>
+                    <a href="{{ route('user.address.edit',$user->id) }}" class="btn btn-sm btn-outline-primary">Address</a>
+                </td>
                 <td>
                     <a href="{{ route('user.edit',$user->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
@@ -68,7 +76,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="5">No Users defined.</td>
+                <td colspan="12">No Users defined.</td>
             </tr>
         @endforelse
         </tbody>

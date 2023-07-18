@@ -16,7 +16,7 @@ class VendorsController extends Controller
     public function index()
     {
         $request = request();
-        $vendors = Vendor::filter($request->query())->paginate(5);
+        $vendors = Vendor::with('address')->filter($request->query())->paginate(5);
         return view('dashboard.vendors.index',compact('vendors'));
     }
 

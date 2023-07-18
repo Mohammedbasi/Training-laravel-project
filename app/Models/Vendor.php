@@ -20,11 +20,18 @@ class Vendor extends Model
         'last_name',
         'is_active',
         'phone',
+        'remember_token',
     ];
 
     public function address(): MorphOne
     {
-        return $this->morphOne(Address::class,'addressable');
+        return $this->morphOne(Address::class,'addressable')
+            ->withDefault([
+                'city_id'=>'-',
+                'street'=>'-',
+                'district'=>'-',
+                'phone'=>'-'
+            ]);
     }
     public function scopeFilter(Builder $builder, $filters)
     {

@@ -8,14 +8,13 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
     public function index()
     {
         $request = request();
-        $users = User::filter($request->query())->paginate(10);
+        $users = User::with('address')->filter($request->query())->paginate(10);
         return view('dashboard.users.index', compact('users'));
     }
 

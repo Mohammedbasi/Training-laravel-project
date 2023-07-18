@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Address extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'city_id','district','street','phone'
+    ];
 
     public function addressable() : MorphTo
     {
@@ -17,6 +20,9 @@ class Address extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class,'city_id','id');
+        return $this->belongsTo(City::class,'city_id','id')
+            ->withDefault([
+                'name'=>'-'
+            ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Filters\Attributes\AddressFilter;
 use App\Filters\Attributes\EmailFilter;
 use App\Filters\Attributes\IsActiveFilter;
 use App\Filters\Attributes\IsAdminFilter;
@@ -18,6 +19,7 @@ class FilterFactory
         'is_active' => IsActiveFilter::class,
         'is_admin' => IsAdminFilter::class,
         'phone' => PhoneFilter::class,
+        'address'=> AddressFilter::class,
     ];
 
     public static function createFilter($attribute)

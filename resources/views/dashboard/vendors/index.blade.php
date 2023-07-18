@@ -20,7 +20,9 @@
             <option value="active" @selected(request('is_active') == 'active')>Active</option>
             <option value="inactive" @selected(request('is_active') == 'inactive')>In-active</option>
         </select>
-
+        
+        <input type="text" name="address" value="{{ request('address') }}" placeholder="Address"
+               class="form-control mx-2"/>
 
         <button class="btn btn-dark mx-2">Filter</button>
     </form>
@@ -28,26 +30,34 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Status</th>
             <th>Phone</th>
-            <th>Created At</th>
-            <th colspan="2">Actions</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>District</th>
+            <th colspan="3">Actions</th>
         </tr>
         </thead>
         <tbody>
+        @php
+
+        @endphp
         @forelse($vendors as $vendor)
             <tr>
-                <td>{{ $vendor->id}}</td>
                 <td>{{ $vendor->email }}</td>
                 <td>{{ $vendor->first_name }}</td>
                 <td>{{ $vendor->last_name }}</td>
                 <td>{{ $vendor->is_active==1?'Active':'Inactive' }}</td>
                 <td>{{ $vendor->phone }}</td>
-                <td>{{ $vendor->created_at }}</td>
+                <td>{{ $vendor->address->city->name }}</td>
+                <td>{{ $vendor->address->street }}</td>
+                <td>{{ $vendor->address->district }}</td>
+                <td>
+                    <a href="{{ route('vendors.address.edit',$vendor->id) }}" class="btn btn-sm btn-outline-primary">Address</a>
+                </td>
                 <td>
                     <a href="{{ route('vendors.edit',$vendor->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
@@ -61,7 +71,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="9">No Vendors defined.</td>
+                <td colspan="11">No Vendors defined.</td>
             </tr>
         @endforelse
         </tbody>
