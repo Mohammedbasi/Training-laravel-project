@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Dashboard\AddressController;
+use App\Http\Controllers\dashboard\BrandController;
 use App\Http\Controllers\dashboard\DashboardController;
+use App\Http\Controllers\dashboard\ItemController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
 use App\Http\Controllers\ProfileController;
@@ -61,6 +63,24 @@ Route::group([
     Route::put('vendors/restore/{user}', [VendorsController::class, 'restore'])->name('vendors.restore');
     Route::delete('vendors/force-delete/{user}', [VendorsController::class, 'forceDelete'])->name('vendors.force-delete');
     Route::resource('/vendors', VendorsController::class);
+});
+
+Route::group([
+    'middleware' => 'admin'
+], function () {
+    Route::get('brands/trash', [BrandController::class, 'trash'])->name('brands.trash');
+    Route::put('brands/restore/{brand}', [BrandController::class, 'restore'])->name('brands.restore');
+    Route::delete('brands/force-delete/{brand}', [BrandController::class, 'forceDelete'])->name('brands.force-delete');
+    Route::resource('/brands', BrandController::class);
+});
+
+Route::group([
+    'middleware' => 'admin'
+], function () {
+    Route::get('items/trash', [ItemController::class, 'trash'])->name('items.trash');
+    Route::put('items/restore/{brand}', [ItemController::class, 'restore'])->name('items.restore');
+    Route::delete('items/force-delete/{brand}', [ItemController::class, 'forceDelete'])->name('items.force-delete');
+    Route::resource('/items', ItemController::class);
 });
 
 require __DIR__ . '/auth.php';

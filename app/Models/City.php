@@ -23,4 +23,9 @@ class City extends Model
     {
         return $this->belongsTo(Country::class,'country_id','id');
     }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class,'city_id','id');
+    }
 }

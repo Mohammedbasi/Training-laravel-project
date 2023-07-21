@@ -3,10 +3,13 @@
 namespace App\Filters;
 
 use App\Filters\Attributes\AddressFilter;
+use App\Filters\Attributes\BrandNameFilter;
 use App\Filters\Attributes\EmailFilter;
 use App\Filters\Attributes\IsActiveFilter;
 use App\Filters\Attributes\IsAdminFilter;
 use App\Filters\Attributes\NameFilter;
+use App\Filters\Attributes\NotesFilter;
+use App\Filters\Attributes\SingleNameFilter;
 use App\Filters\Attributes\UsernameFilter;
 use App\Filters\Attributes\PhoneFilter;
 
@@ -19,7 +22,10 @@ class FilterFactory
         'is_active' => IsActiveFilter::class,
         'is_admin' => IsAdminFilter::class,
         'phone' => PhoneFilter::class,
-        'address'=> AddressFilter::class,
+        'address' => AddressFilter::class,
+        'single_name' => SingleNameFilter::class,
+        'notes' => NotesFilter::class,
+        'brand_id'=> BrandNameFilter::class,
     ];
 
     public static function createFilter($attribute)

@@ -6,31 +6,23 @@ use App\Filters\FilterFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Vendor extends Model
+class Item extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory,SoftDeletes;
+
     protected $fillable = [
-        'email',
-        'created_at',
-        'updated_at',
-        'first_name',
-        'last_name',
-        'is_active',
-        'phone',
-        'remember_token',
+        'name','image','brand_id','is_active'
     ];
 
-    public function address(): MorphOne
+    public function brand()
     {
-        return $this->morphOne(Address::class,'addressable')
+        return $this->belongsTo(Brand::class, 'brand_id', 'id')
             ->withDefault([
-                'city_id'=>'-',
-                'street'=>'-',
-                'district'=>'-',
-                'phone'=>'-'
+                'name' => '-',
+                'notes' => '-',
+                'icon' => '-'
             ]);
     }
 
@@ -38,11 +30,12 @@ class Vendor extends Model
     {
         return $this->belongsToMany(
             Inventory::class,
-            'inventory_vendors',
-            'vendor_id',
+            'inventory_items',
+            'item_id',
             'inventory_id'
         );
     }
+
     public function scopeFilter(Builder $builder, $filters)
     {
         $filterable = new FilterFactory();

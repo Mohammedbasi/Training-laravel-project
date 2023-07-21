@@ -20,7 +20,7 @@
             <option value="active" @selected(request('is_active') == 'active')>Active</option>
             <option value="inactive" @selected(request('is_active') == 'inactive')>In-active</option>
         </select>
-        
+
         <input type="text" name="address" value="{{ request('address') }}" placeholder="Address"
                class="form-control mx-2"/>
 
