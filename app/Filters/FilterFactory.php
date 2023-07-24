@@ -4,7 +4,9 @@ namespace App\Filters;
 
 use App\Filters\Attributes\AddressFilter;
 use App\Filters\Attributes\BrandNameFilter;
+use App\Filters\Attributes\CityNameFilter;
 use App\Filters\Attributes\EmailFilter;
+use App\Filters\Attributes\InventoryNameFilter;
 use App\Filters\Attributes\IsActiveFilter;
 use App\Filters\Attributes\IsAdminFilter;
 use App\Filters\Attributes\NameFilter;
@@ -12,6 +14,7 @@ use App\Filters\Attributes\NotesFilter;
 use App\Filters\Attributes\SingleNameFilter;
 use App\Filters\Attributes\UsernameFilter;
 use App\Filters\Attributes\PhoneFilter;
+use App\Filters\Attributes\VendorNameFilter;
 
 class FilterFactory
 {
@@ -26,6 +29,9 @@ class FilterFactory
         'single_name' => SingleNameFilter::class,
         'notes' => NotesFilter::class,
         'brand_id'=> BrandNameFilter::class,
+        'city_id'=> CityNameFilter::class,
+        'inventory_id'=> InventoryNameFilter::class,
+        'vendor_id'=>VendorNameFilter::class,
     ];
 
     public static function createFilter($attribute)

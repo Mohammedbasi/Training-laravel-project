@@ -33,7 +33,7 @@ class Item extends Model
             'inventory_items',
             'item_id',
             'inventory_id'
-        );
+        )->withPivot('quantity');
     }
 
     public function scopeFilter(Builder $builder, $filters)

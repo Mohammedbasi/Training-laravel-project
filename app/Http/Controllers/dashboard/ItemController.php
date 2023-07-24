@@ -5,9 +5,10 @@ namespace App\Http\Controllers\dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
 use App\Models\Brand;
+use App\Models\Inventory;
 use App\Models\Item;
+use App\Models\Vendor;
 use App\Trait\ImageUpload;
-use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,9 +21,12 @@ class ItemController extends Controller
     public function index()
     {
         $request = request();
-        $items =Item::with('brand')->filter($request->all())->paginate(5);
+        $items =Item::with(['brand','inventories'])->filter($request->all())->paginate(5);
         $brands  =Brand::all();
-        return view('dashboard.items.index',compact('items','brands'));
+        $inventories = Inventory::all();
+        $vendors = Vendor::all();
+        return view('dashboard.items.index',
+            compact('items','brands','inventories','vendors'));
     }
 
     /**
@@ -120,7 +124,7 @@ class ItemController extends Controller
     {
         $item = Item::onlyTrashed()->findOrFail($id);
         $item->forceDelete();
-
+        $item->inventories()->detach();
         if ($item->image) {
             Storage::disk('public')->delete($item->image);
         }

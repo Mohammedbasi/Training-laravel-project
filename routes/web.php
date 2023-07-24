@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\dashboard\BrandController;
 use App\Http\Controllers\dashboard\DashboardController;
+use App\Http\Controllers\dashboard\InventoryController;
 use App\Http\Controllers\dashboard\ItemController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
@@ -81,6 +82,18 @@ Route::group([
     Route::put('items/restore/{brand}', [ItemController::class, 'restore'])->name('items.restore');
     Route::delete('items/force-delete/{brand}', [ItemController::class, 'forceDelete'])->name('items.force-delete');
     Route::resource('/items', ItemController::class);
+});
+
+Route::group([
+    'middleware' => 'admin'
+], function () {
+    Route::get('inventories/add-items/{inventory}', [InventoryController::class, 'addItems'])->name('inventories.add-items');
+    Route::post('inventories/store-items/{inventory}', [InventoryController::class, 'storeItems'])->name('inventories.store-items');
+
+    Route::get('inventories/trash', [InventoryController::class, 'trash'])->name('inventories.trash');
+    Route::put('inventories/restore/{inventory}', [InventoryController::class, 'restore'])->name('inventories.restore');
+    Route::delete('inventories/force-delete/{inventory}', [InventoryController::class, 'forceDelete'])->name('inventories.force-delete');
+    Route::resource('/inventories', InventoryController::class);
 });
 
 require __DIR__ . '/auth.php';

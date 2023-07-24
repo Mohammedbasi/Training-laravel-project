@@ -25,6 +25,20 @@
                 @endforeach
             </select>
 
+            <select name="inventory_id" class="form-control form-select mx-2">
+                <option value="">All</option>
+                @foreach($inventories as $inventory)
+                    <option value="{{ $inventory->id }}" @selected(request('inventory_id') == $inventory->id)>{{ $inventory->name }}</option>
+                @endforeach
+            </select>
+            <label>Vendors</label>
+            <select name="vendor_id" class="form-control form-select mx-2">
+                <option value="">All</option>
+                @foreach($vendors as $vendor)
+                    <option value="{{ $vendor->id }}" @selected(request('vendor_id') == $vendor->id)>{{ $vendor->first_name }}</option>
+                @endforeach
+            </select>
+
             <button class="btn btn-dark mx-2">Filter</button>
         </form>
 

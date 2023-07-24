@@ -94,4 +94,25 @@ return [
         'active' => 'items.trash',
         'user'=>false,
     ],
+    [
+        'icon' => 'nav-icon fas fa-tachometer-alt',
+        'route' => 'inventories.index',
+        'title' => 'Inventories',
+        'active' => 'inventories.index',
+        'user'=>false,
+    ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'inventories.create',
+        'title' => 'Create Inventory',
+        'active' => 'inventories.create',
+        'user'=>false,
+    ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'inventories.trash',
+        'title' => 'Inventories Trash',
+        'active' => 'inventories.trash',
+        'user'=>false,
+    ],
 ];

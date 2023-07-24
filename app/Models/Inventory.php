@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use App\Filters\FilterFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inventory extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'name','city_id','phone','is_active'
+    ];
 
     public function items()
     {
@@ -16,7 +23,7 @@ class Inventory extends Model
             'inventory_items',
             'inventory_id',
             'item_id'
-        );
+        )->withPivot('quantity')->withTimestamps();
     }
 
     public function vendors()
@@ -25,7 +32,7 @@ class Inventory extends Model
             Vendor::class,
             'inventory_vendors',
             'inventory_id',
-            'vendors_id'
+            'vendor_id'
         );
     }
 
@@ -36,5 +43,10 @@ class Inventory extends Model
                 'name'=>'-',
                 'country_id'=>'-'
             ]);
+    }
+    public function scopeFilter(Builder $builder, $filters)
+    {
+        $filterable = new FilterFactory();
+        $filterable->baseFilter($builder, $filters);
     }
 }
