@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class InventoryItem extends Model
 {
     use HasFactory;
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class,'item_id','id');
+    }
 }

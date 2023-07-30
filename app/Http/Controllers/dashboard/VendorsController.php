@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VendorRequest;
+use App\Models\Item;
 use App\Models\Vendor;
 use Exception;
 use Illuminate\Http\Request;
@@ -96,6 +97,43 @@ class VendorsController extends Controller
     {
         $vendor = Vendor::onlyTrashed()->findOrFail($id);
         $vendor->forceDelete();
+        $vendor->items()->detach();
         return redirect()->route('vendors.trash')->with('success', 'Vendors deleted forever!');
     }
+
+//    public function addItems(string $id)
+//    {
+//        try {
+//            $vendor = Vendor::findOrFail($id);
+//        } catch (Exception $e) {
+//            return redirect()->route('vendors.index')->with('info', 'Page Not Found!');
+//        }
+//        $items = Item::all();
+//        $selectedItems = [];
+//        $itemQuantities = [];
+//        if ($vendor) {
+//            $selectedItems = $vendor->items->pluck('id')->toArray();
+//            $itemQuantities = $vendor->items->pluck('pivot.quantity', 'id')->toArray();
+//        }
+//        return view('dashboard.vendors.addItems',
+//            compact('items', 'vendor', 'selectedItems', 'itemQuantities'));
+//    }
+
+//    public function storeItems(Request $request, string $id)
+//    {
+//        $vendor = Vendor::findOrFail($id);
+//        $quantities = $request->input('quantities', []);
+//
+//        $vendor->items()->detach();
+//
+//        foreach ($request->input('item_ids', []) as $itemId) {
+//            $item = Item::findOrFail($itemId);
+//
+//            if ($item && is_numeric($quantities[$itemId])) {
+//                $vendor->items()->attach($item, ['quantity' => $quantities[$itemId]]);
+//            }
+//        }
+//
+//        return redirect()->route('vendors.index')->with('success', 'Vendor Support items Successfully');
+//    }
 }

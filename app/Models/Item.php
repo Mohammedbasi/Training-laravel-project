@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name','image','brand_id','is_active'
+        'name', 'image', 'brand_id', 'is_active',
+        'price','purchasable','total_purchases','total_sales'
     ];
 
     public function brand()
@@ -36,9 +37,29 @@ class Item extends Model
         )->withPivot('quantity');
     }
 
+    public function vendors()
+    {
+        return $this->belongsToMany(
+            Vendor::class,
+            'vendor_items',
+            'item_id',
+            'vendor_id'
+        )->withPivot('quantity');
+    }
+
     public function scopeFilter(Builder $builder, $filters)
     {
         $filterable = new FilterFactory();
         $filterable->baseFilter($builder, $filters);
+    }
+
+    public function scopeActive(Builder $builder)
+    {
+        $builder->where('is_active', '=', 1);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'item_id', 'id');
     }
 }

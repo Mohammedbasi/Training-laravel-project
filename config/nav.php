@@ -8,6 +8,7 @@ return [
         'title' => 'Dashboard',
         'active' => 'dashboard',
         'user'=>true,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -15,6 +16,7 @@ return [
         'title' => 'Users',
         'active' => 'user.index',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -22,6 +24,7 @@ return [
         'title' => 'Create',
         'active' => 'user.create',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -30,6 +33,7 @@ return [
         'active' => 'user.trash',
         'badge' => 'New',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'nav-icon fas fa-tachometer-alt',
@@ -37,6 +41,7 @@ return [
         'title' => 'Vendors',
         'active' => 'vendors.index',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -44,6 +49,7 @@ return [
         'title' => 'Create Vendor',
         'active' => 'vendors.create',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -51,13 +57,15 @@ return [
         'title' => 'Vendors Trash',
         'active' => 'vendors.trash',
         'user'=>false,
+        'admin'=>true,
     ],
     [
-        'icon' => 'nav-icon fas fa-tachometer-alt',
+        'icon' => 'nav-icon fas fa-chart-pie',
         'route' => 'brands.index',
         'title' => 'Brands',
         'active' => 'brands.index',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -65,6 +73,7 @@ return [
         'title' => 'Create Brand',
         'active' => 'brands.create',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -72,13 +81,15 @@ return [
         'title' => 'Brands Trash',
         'active' => 'brands.trash',
         'user'=>false,
+        'admin'=>true,
     ],
     [
-        'icon' => 'nav-icon fas fa-tachometer-alt',
+        'icon' => 'nav-icon fas fa-tree',
         'route' => 'items.index',
         'title' => 'Items',
         'active' => 'items.index',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -86,6 +97,7 @@ return [
         'title' => 'Create Item',
         'active' => 'items.create',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -93,6 +105,7 @@ return [
         'title' => 'Items Trash',
         'active' => 'items.trash',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'nav-icon fas fa-tachometer-alt',
@@ -100,6 +113,7 @@ return [
         'title' => 'Inventories',
         'active' => 'inventories.index',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -107,6 +121,7 @@ return [
         'title' => 'Create Inventory',
         'active' => 'inventories.create',
         'user'=>false,
+        'admin'=>true,
     ],
     [
         'icon' => 'far fa-circle nav-icon',
@@ -114,5 +129,22 @@ return [
         'title' => 'Inventories Trash',
         'active' => 'inventories.trash',
         'user'=>false,
+        'admin'=>true,
+    ],
+    [
+        'icon' => 'nav-icon fas fa-tree',
+        'route' => 'front.items.index',
+        'title' => 'Items',
+        'active' => 'front.items.index',
+        'user'=>true,
+        'admin'=>false,
+    ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'front.cart.index',
+        'title' => 'Cart',
+        'active' => 'front.cart.index',
+        'user'=>true,
+        'admin'=>false,
     ],
 ];

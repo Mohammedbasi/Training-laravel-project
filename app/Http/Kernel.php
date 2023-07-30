@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AllowAdminOnly;
+use App\Http\Middleware\AllowUserOnly;
 use App\Http\Middleware\PreventAuthUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'prevent'=>PreventAuthUsers::class,
         'admin'=>AllowAdminOnly::class,
+        'user'=>AllowUserOnly::class,
     ];
 }

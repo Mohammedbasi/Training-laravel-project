@@ -16,16 +16,16 @@
     </select>
 </div>
 
-<div class="form-group">
-    <label for="">Vendors</label>
-    <select name="vendors[]" multiple size="10" class="custom-select">
-        @foreach($vendors as $vendor)
-            <option class="mb-1" value="{{ $vendor->id }}"
-                {{ in_array($vendor->id, old('vendors', [])) ? 'selected' : '' }}
-                @if(in_array($vendor->id, $selectedVendors??[])) selected @endif >{{ $vendor->first_name . $vendor->last_name }}</option>
-        @endforeach
-    </select>
-</div>
+{{--<div class="form-group">--}}
+{{--    <label for="">Vendors</label>--}}
+{{--    <select name="vendors[]" multiple size="10" class="custom-select">--}}
+{{--        @foreach($vendors as $vendor)--}}
+{{--            <option class="mb-1" value="{{ $vendor->id }}"--}}
+{{--                {{ in_array($vendor->id, old('vendors', [])) ? 'selected' : '' }}--}}
+{{--                @if(in_array($vendor->id, $selectedVendors??[])) selected @endif >{{ $vendor->first_name . $vendor->last_name }}</option>--}}
+{{--        @endforeach--}}
+{{--    </select>--}}
+{{--</div>--}}
 
 <div class="form-group">
     <label for="">Phone</label>

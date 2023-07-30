@@ -40,7 +40,7 @@
             <th>Status</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th colspan="3">Actions</th>
+            <th colspan="2">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -55,9 +55,13 @@
                 <td>{{ $inventory->created_at }}</td>
                 <td>{{ $inventory->updated_at }}</td>
 
+{{--                <td>--}}
+{{--                    <a href="{{ route('inventories.add-items',$inventory->id) }}"--}}
+{{--                       class="btn btn-sm btn-outline-primary">Add Items</a>--}}
+{{--                </td>--}}
                 <td>
-                    <a href="{{ route('inventories.add-items',$inventory->id) }}"
-                       class="btn btn-sm btn-outline-primary">Add Items</a>
+                    <a href="{{ route('inventories.items',$inventory->id) }}"
+                       class="btn btn-sm btn-outline-primary">Items</a>
                 </td>
 
                 <td>
@@ -75,7 +79,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="10">No Inventories defined.</td>
+                <td colspan="9">No Inventories defined.</td>
             </tr>
         @endforelse
         </tbody>

@@ -5,8 +5,11 @@ use App\Http\Controllers\dashboard\BrandController;
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\InventoryController;
 use App\Http\Controllers\dashboard\ItemController;
+use App\Http\Controllers\dashboard\ItemInventoryStore;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
+use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +37,42 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group([
+    'prefix' => 'front',
+    'middleware' => ['auth', 'user'],
+], function () {
+    Route::get('/items', [\App\Http\Controllers\Front\ItemsController::class, 'index'])
+        ->name('front.items.index');
+
+    Route::get('/cart', [CartController::class, 'index'])
+        ->name('front.cart.index');
+
+    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])
+        ->name('front.cart.store');
+
+    Route::delete('/remove-from-cart/{id}', [CartController::class, 'remove'])
+        ->name('front.cart.remove');
+
+    Route::delete('/cart-clear', [CartController::class, 'clear'])
+        ->name('front.cart.clear');
+
+
+});
+
+Route::group([
+    'prefix' => 'front',
+    'middleware' => ['auth', 'user'],
+], function () {
+    Route::post('/purchase-single/{id}', [OrderController::class, 'purchaseSingle'])
+        ->name('front.purchase-single');
+
+    Route::post('/purchase-all', [OrderController::class, 'purchaseAll'])
+        ->name('front.purchase-all');
+
+    Route::get('purchase/history', [OrderController::class, 'index'])
+        ->name('purchase.history');
+});
+
+Route::group([
     'prefix' => 'user',
     'middleware' => 'admin',
 ], function () {
@@ -56,6 +95,7 @@ Route::group([
 Route::group([
     'middleware' => 'admin',
 ], function () {
+
     Route::get('vendors/address/{vendor}', [AddressController::class, 'edit'])
         ->name('vendors.address.edit');
     Route::put('vendors/address/{vendor}', [AddressController::class, 'update'])
@@ -87,13 +127,24 @@ Route::group([
 Route::group([
     'middleware' => 'admin'
 ], function () {
-    Route::get('inventories/add-items/{inventory}', [InventoryController::class, 'addItems'])->name('inventories.add-items');
-    Route::post('inventories/store-items/{inventory}', [InventoryController::class, 'storeItems'])->name('inventories.store-items');
+//    Route::get('inventories/add-items/{inventory}', [InventoryController::class, 'addItems'])->name('inventories.add-items');
+//    Route::post('inventories/store-items/{inventory}', [InventoryController::class, 'storeItems'])->name('inventories.store-items');
+    Route::get('inventories/items/{inventory}',[InventoryController::class,'items'])
+        ->name('inventories.items');
 
     Route::get('inventories/trash', [InventoryController::class, 'trash'])->name('inventories.trash');
     Route::put('inventories/restore/{inventory}', [InventoryController::class, 'restore'])->name('inventories.restore');
     Route::delete('inventories/force-delete/{inventory}', [InventoryController::class, 'forceDelete'])->name('inventories.force-delete');
     Route::resource('/inventories', InventoryController::class);
+});
+
+Route::group([
+    'middleware' => 'admin'
+], function () {
+    Route::get('item-inventory-add/{item}', [ItemInventoryStore::class, 'index'])
+        ->name('item.add-to-inventory');
+    Route::post('item-inventory-store/{item}', [ItemInventoryStore::class, 'store'])
+        ->name('item.store-in-inventory');
 });
 
 require __DIR__ . '/auth.php';

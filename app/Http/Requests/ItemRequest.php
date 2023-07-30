@@ -41,10 +41,19 @@ class ItemRequest extends FormRequest
                 'required',
                 Rule::in([0, 1])
             ],
+            'purchasable' => [
+                'required',
+                Rule::in([0, 1])
+            ],
             'brand_id' => [
                 'required',
                 'exists:brands,id',
             ],
+            'price' => [
+                'required',
+                'numeric',
+                'regex:/^\d+(\.\d{1,2})?$/'
+            ]
         ];
     }
 }

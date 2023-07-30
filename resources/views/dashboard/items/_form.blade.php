@@ -16,10 +16,24 @@
 </div>
 
 <div class="form-group">
+    <label for="">Price</label>
+    <input type="number" step="0.01" name="price" value="{{ old('price',$item->price??'') }}" class="form-control @error('price') is-invalid @enderror" />
+    @include('layouts.error',['field'=>'price'])
+</div>
+
+<div class="form-group">
     <label for="">Status</label>
     <select name="is_active" class="form-control form-select">
         <option @selected(old('is_active',$item->is_active??'') == 1) value="1">Active</option>
         <option @selected(old('is_active',$item->is_active??'') == 0) value="0">Inactive</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="">Purchasable</label>
+    <select name="purchasable" class="form-control form-select">
+        <option @selected(old('purchasable',$item->purchasable??'') == 1) value="1">Purchasable</option>
+        <option @selected(old('purchasable',$item->purchasable??'') == 0) value="0">Not Purchasable</option>
     </select>
 </div>
 

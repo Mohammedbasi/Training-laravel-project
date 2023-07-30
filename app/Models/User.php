@@ -111,8 +111,13 @@ class User extends Authenticatable
                 'city_id' => '-',
                 'street' => '-',
                 'district' => '-',
-                'phone'=>'-'
+                'phone' => '-'
             ]);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'user_id', 'id');
     }
 
 }

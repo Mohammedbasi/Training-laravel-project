@@ -33,8 +33,8 @@ class InventoryController extends Controller
     public function create()
     {
         $cities = City::all();
-        $vendors = Vendor::all();
-        return view('dashboard.inventories.create', compact('cities', 'vendors'));
+//        $vendors = Vendor::all();
+        return view('dashboard.inventories.create', compact('cities'/*, 'vendors'*/));
     }
 
     /**
@@ -42,17 +42,18 @@ class InventoryController extends Controller
      */
     public function store(InventoryRequest $request)
     {
-        $vendors = $request->input('vendors', []);
-        $count = array_count_values($vendors);
-        $data = $request->except('vendors');
-        $inventory = Inventory::create($data);
-        $vendor_id = [];
-        if ($count != 0) {
-            foreach ($vendors as $vendorId) {
-                $vendor_id[] = $vendorId;
-            }
-        }
-        $inventory->vendors()->sync($vendor_id);
+//        $vendors = $request->input('vendors', []);
+//        $count = array_count_values($vendors);
+//        $data = $request->except('vendors');
+
+//        $vendor_id = [];
+//        if ($count != 0) {
+//            foreach ($vendors as $vendorId) {
+//                $vendor_id[] = $vendorId;
+//            }
+//        }
+//        $inventory->vendors()->sync($vendor_id);
+        $inventory = Inventory::create($request->all());
         return redirect()->route('inventories.index')->with('success', 'Inventory Created');
     }
 
@@ -75,10 +76,10 @@ class InventoryController extends Controller
             return redirect()->route('inventories.index')->with('info', 'Page Not Found!');
         }
         $cities = City::all();
-        $vendors = Vendor::all();
-        $selectedVendors = $inventory->vendors->pluck('id')->toArray();
+//        $vendors = Vendor::all();
+//        $selectedVendors = $inventory->vendors->pluck('id')->toArray();
         return view('dashboard.inventories.edit',
-            compact('inventory', 'cities', 'vendors', 'selectedVendors'));
+            compact('inventory', 'cities'/*, 'vendors', 'selectedVendors'*/));
     }
 
     /**
@@ -87,17 +88,17 @@ class InventoryController extends Controller
     public function update(InventoryRequest $request, string $id)
     {
         $inventory = Inventory::findOrFail($id);
-        $inventory->update($request->except('vendors'));
+        $inventory->update($request->all());
 
-        $vendors = $request->input('vendors', []);
-        $count = array_count_values($vendors);
-        $vendor_id = [];
-        if ($count != 0) {
-            foreach ($vendors as $vendorId) {
-                $vendor_id[] = $vendorId;
-            }
-        }
-        $inventory->vendors()->sync($vendor_id);
+//        $vendors = $request->input('vendors', []);
+//        $count = array_count_values($vendors);
+//        $vendor_id = [];
+//        if ($count != 0) {
+//            foreach ($vendors as $vendorId) {
+//                $vendor_id[] = $vendorId;
+//            }
+//        }
+//        $inventory->vendors()->sync($vendor_id);
 
         return redirect()->route('inventories.index')->with('success', 'Inventory Updated');
     }
@@ -134,39 +135,47 @@ class InventoryController extends Controller
         return redirect()->route('inventories.trash')->with('success', 'Inventory deleted forever!');
     }
 
-    public function addItems(string $id)
-    {
-        try {
-            $inventory = Inventory::findOrFail($id);
-        } catch (Exception $e) {
-            return redirect()->route('inventories.index')->with('info', 'Page Not Found!');
-        }
-        $items = Item::all();
-        $selectedItems = [];
-        $itemQuantities = [];
-        if ($inventory) {
-            $selectedItems = $inventory->items->pluck('id')->toArray();
-            $itemQuantities = $inventory->items->pluck('pivot.quantity', 'id')->toArray();
-        }
-        return view('dashboard.inventories.addItems',
-            compact('items', 'inventory', 'selectedItems', 'itemQuantities'));
-    }
-
-    public function storeItems(Request $request, string $id)
+    public function items(string $id)
     {
         $inventory = Inventory::findOrFail($id);
-        $quantities = $request->input('quantities', []);
+        $items = $inventory->items()->paginate(3);
 
-        $inventory->items()->detach();
-
-        foreach ($request->input('item_ids', []) as $itemId) {
-            $item = Item::findOrFail($itemId);
-
-            if ($item && is_numeric($quantities[$itemId])) {
-                $inventory->items()->attach($item, ['quantity' => $quantities[$itemId]]);
-            }
-        }
-
-        return redirect()->route('inventories.index')->with('success', 'Items Add To Inventory Successfully');
+        return view('dashboard.inventories.items',compact('items'));
     }
+
+//    public function addItems(string $id)
+//    {
+//        try {
+//            $inventory = Inventory::findOrFail($id);
+//        } catch (Exception $e) {
+//            return redirect()->route('inventories.index')->with('info', 'Page Not Found!');
+//        }
+//        $items = Item::all();
+//        $selectedItems = [];
+//        $itemQuantities = [];
+//        if ($inventory) {
+//            $selectedItems = $inventory->items->pluck('id')->toArray();
+//            $itemQuantities = $inventory->items->pluck('pivot.quantity', 'id')->toArray();
+//        }
+//        return view('dashboard.inventories.addItems',
+//            compact('items', 'inventory', 'selectedItems', 'itemQuantities'));
+//    }
+
+//    public function storeItems(Request $request, string $id)
+//    {
+//        $inventory = Inventory::findOrFail($id);
+//        $quantities = $request->input('quantities', []);
+//
+//        $inventory->items()->detach();
+//
+//        foreach ($request->input('item_ids', []) as $itemId) {
+//            $item = Item::findOrFail($itemId);
+//
+//            if ($item && is_numeric($quantities[$itemId])) {
+//                $inventory->items()->attach($item, ['quantity' => $quantities[$itemId]]);
+//            }
+//        }
+//
+//        return redirect()->route('inventories.index')->with('success', 'Items Add To Inventory Successfully');
+//    }
 }

@@ -44,7 +44,7 @@
         <tbody>
         @php
 
-        @endphp
+            @endphp
         @forelse($vendors as $vendor)
             <tr>
                 <td>{{ $vendor->email }}</td>

@@ -11,6 +11,7 @@ use App\Filters\Attributes\IsActiveFilter;
 use App\Filters\Attributes\IsAdminFilter;
 use App\Filters\Attributes\NameFilter;
 use App\Filters\Attributes\NotesFilter;
+use App\Filters\Attributes\OverFifty;
 use App\Filters\Attributes\SingleNameFilter;
 use App\Filters\Attributes\UsernameFilter;
 use App\Filters\Attributes\PhoneFilter;
@@ -32,6 +33,7 @@ class FilterFactory
         'city_id'=> CityNameFilter::class,
         'inventory_id'=> InventoryNameFilter::class,
         'vendor_id'=>VendorNameFilter::class,
+        'item_50'=>OverFifty::class,
     ];
 
     public static function createFilter($attribute)

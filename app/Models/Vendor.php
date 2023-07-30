@@ -34,15 +34,25 @@ class Vendor extends Model
             ]);
     }
 
-    public function inventories()
+    public function items()
     {
         return $this->belongsToMany(
-            Inventory::class,
-            'inventory_vendors',
+            Item::class,
+            'vendor_items',
             'vendor_id',
-            'inventory_id'
-        );
+            'item_id'
+        )->withPivot('quantity');
     }
+
+//    public function inventories()
+//    {
+//        return $this->belongsToMany(
+//            Inventory::class,
+//            'inventory_vendors',
+//            'vendor_id',
+//            'inventory_id'
+//        );
+//    }
     public function scopeFilter(Builder $builder, $filters)
     {
         $filterable = new FilterFactory();

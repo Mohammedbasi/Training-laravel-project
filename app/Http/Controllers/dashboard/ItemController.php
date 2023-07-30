@@ -21,7 +21,7 @@ class ItemController extends Controller
     public function index()
     {
         $request = request();
-        $items =Item::with(['brand','inventories'])->filter($request->all())->paginate(5);
+        $items =Item::with(['brand','inventories','vendors'])->filter($request->all())->paginate(5);
         $brands  =Brand::all();
         $inventories = Inventory::all();
         $vendors = Vendor::all();
@@ -125,6 +125,7 @@ class ItemController extends Controller
         $item = Item::onlyTrashed()->findOrFail($id);
         $item->forceDelete();
         $item->inventories()->detach();
+        $item->vendors()->detach();
         if ($item->image) {
             Storage::disk('public')->delete($item->image);
         }

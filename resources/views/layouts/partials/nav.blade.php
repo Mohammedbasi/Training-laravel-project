@@ -4,6 +4,7 @@
 
         @if(\Illuminate\Support\Facades\Auth::user()->is_admin == 1)
             @foreach($items as $item)
+                @if($item['admin'])
                 <li class="nav-item">
                     <a href="{{ route($item['route']) }}"
                        class="nav-link {{ Route::is($item['active'])? 'active':'' }}">
@@ -16,6 +17,7 @@
                         </p>
                     </a>
                 </li>
+                @endif
             @endforeach
         @else
             @foreach($items as $item)

@@ -26,15 +26,15 @@ class Inventory extends Model
         )->withPivot('quantity')->withTimestamps();
     }
 
-    public function vendors()
-    {
-        return $this->belongsToMany(
-            Vendor::class,
-            'inventory_vendors',
-            'inventory_id',
-            'vendor_id'
-        );
-    }
+//    public function vendors()
+//    {
+//        return $this->belongsToMany(
+//            Vendor::class,
+//            'inventory_vendors',
+//            'inventory_id',
+//            'vendor_id'
+//        );
+//    }
 
     public function city()
     {
@@ -48,5 +48,10 @@ class Inventory extends Model
     {
         $filterable = new FilterFactory();
         $filterable->baseFilter($builder, $filters);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'inventory_id', 'id');
     }
 }
