@@ -23,22 +23,7 @@ class LowQuantityObserver
      */
     public function updated(Item $item): void
     {
-//        $item = $inventoryItem->item;
-//        $total_quantity = $item->inventories->sum(function ($inventory) {
-//            return $inventory->pivot->quantity;
-//        });
-//
-//        if ($total_quantity < 50) {
-//            foreach ($item->vendors as $vendor) {
-//                $vendor_email = $vendor->email;
-//                $mail_sent = Mail::to($vendor_email)->send(new LowQuantityNotification($item));
-//                if ($mail_sent) {
-//                    Log::info('Email sent successfully!', ['vendor_email' => $vendor_email]);
-//                } else {
-//                    Log::error('Error sending email!', ['vendor_email' => $vendor_email]);
-//                }
-//            }
-//        }
+
     }
 
     /**
@@ -77,7 +62,7 @@ class LowQuantityObserver
                     $vendorEmail = $vendor->email; // Assuming you have a 'vendor' relationship in your Item model
 
                     // Send the email notification to the vendor
-                    Mail::to($vendorEmail)->send(new LowQuantityNotification($item));
+                    //Mail::to($vendorEmail)->send(new LowQuantityNotification($item));
                 }
             }
         }

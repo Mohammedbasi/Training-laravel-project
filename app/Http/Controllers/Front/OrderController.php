@@ -39,7 +39,7 @@ class OrderController extends Controller
             'item_id' => $item_id,
             'quantity' => $quantity
         ]);
-        $this->decreaseQuantity($item_id, $inventory_id, $quantity);
+//        $this->decreaseQuantity($item_id, $inventory_id, $quantity);
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
     }
@@ -65,7 +65,7 @@ class OrderController extends Controller
                 'item_id' => $item_id,
                 'quantity' => $attributes['quantity']
             ]);
-            $this->decreaseQuantity($item_id, $inventory_id, $attributes['quantity']);
+            //$this->decreaseQuantity($item_id, $inventory_id, $attributes['quantity']);
         }
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
@@ -80,24 +80,24 @@ class OrderController extends Controller
             ->first();
     }
 
-    public function decreaseQuantity($item_id, $inventory_id, $quantity)
-    {
-        // update the total sales of item
-        $item = Item::findOrFail($item_id);
-        $old_sales = $item->total_sales;
-        $new_sales = $old_sales + $quantity;
-        $item->update([
-            'total_sales' => $new_sales
-        ]);
+//    public function decreaseQuantity($item_id, $inventory_id, $quantity)
+//    {
+    // update the total sales of item
+//        $item = Item::findOrFail($item_id);
+//        $old_sales = $item->total_sales;
+//        $new_sales = $old_sales + $quantity;
+//        $item->update([
+//            'total_sales' => $new_sales
+//        ]);
 
-        // decrease the quantity of the inventory
-        $inventory = Inventory::findOrFail($inventory_id);
-        $inventory->items()->where('item_id', $item_id)->decrement('quantity', $quantity);
+    // decrease the quantity of the inventory
+//        $inventory = Inventory::findOrFail($inventory_id);
+//        $inventory->items()->where('item_id', $item_id)->decrement('quantity', $quantity);
+//
+//        $inventory->items()->updateExistingPivot($item_id, ['quantity' => $new_quantity]);
+//        $inventory->refresh();
 
-        //$inventory->items()->updateExistingPivot($item_id, ['quantity' => $new_quantity]);
-        $inventory->refresh();
-
-    }
+//    }
 
     public function checkQuantity($item_id, $inventory_id, $quantity)
     {
