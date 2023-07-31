@@ -56,13 +56,15 @@ class LowQuantityObserver
             $totalQuantity = $item->inventories->sum(function ($inventory) {
                 return $inventory->pivot->quantity;
             });
-
-            foreach ($item->vendors as $vendor) {
-                if ($totalQuantity < 50) {
-                    $vendorEmail = $vendor->email; // Assuming you have a 'vendor' relationship in your Item model
-
-                    // Send the email notification to the vendor
-                    //Mail::to($vendorEmail)->send(new LowQuantityNotification($item));
+            if ($totalQuantity < 50) {
+                foreach ($item->vendors as $vendor) {
+                    if ($vendor->is_active) {
+                        $vendorEmail = $vendor->email; // Assuming you have a 'vendor' relationship in your Item model
+                        $message = (new LowQuantityNotification($item))
+                            ->onQueue('emails');
+                        // Send the email notification to the vendor
+                        Mail::to($vendorEmail)->queue($message);
+                    }
                 }
             }
         }

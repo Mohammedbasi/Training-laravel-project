@@ -11,7 +11,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Image</th>
             <th>ID</th>
             <th>Name</th>
             <th>Brand</th>
@@ -26,8 +25,6 @@
         <tbody>
         @forelse($items as $item)
             <tr>
-                <td><img height="100" style="border-radius: 25% 25% 25% 25%;" width="100"
-                         src="{{ asset('storage/'.$item->image) }}"></td>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->brand->name }}</td>
@@ -54,7 +51,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="9">No Items defined.</td>
+                <td colspan="8">No Items defined.</td>
             </tr>
         @endforelse
         </tbody>
