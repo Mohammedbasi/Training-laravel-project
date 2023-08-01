@@ -10,8 +10,8 @@ class VendorItem extends Model
     use HasFactory;
 
     protected $table = 'vendor_items';
-
     public $timestamps = false;
+
 
     protected $fillable = [
         'vendor_id', 'item_id', 'quantity', 'purchase_flag'
