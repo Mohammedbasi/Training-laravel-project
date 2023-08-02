@@ -23,10 +23,11 @@ class LogUserLogin implements ShouldQueue
      */
     public function handle(UserLoggedIn $event): void
     {
-        DB::table('user_auth_logs')
+        DB::table('login_history')
             ->insert([
-                'user_id'=>$event->user_id,
-                'logged_at'=>$event->logged_at,
+                'name'=>$event->name,
+                'email'=>$event->email,
+                'created_at'=>$event->created_at
             ]);
     }
 }

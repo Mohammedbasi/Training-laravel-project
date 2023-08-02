@@ -14,17 +14,17 @@ class UserLoggedIn
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $logged_at;
-
-
+    public $name;
+    public $email;
+    public $created_at;
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id,$logged_at)
+    public function __construct($name,$email,$created_at)
     {
-        $this->user_id = $user_id;
-        $this->logged_at = $logged_at;
+        $this->name = $name;
+        $this->email = $email;
+        $this->created_at = $created_at;
     }
 
     /**
