@@ -62,4 +62,10 @@ class Item extends Model
     {
         return $this->hasMany(PurchaseOrder::class, 'item_id', 'id');
     }
+
+    public function isQuantityLessThan50()
+    {
+        $totalQuantity = $this->inventories->sum('pivot.quantity');
+        return $totalQuantity < 50;
+    }
 }

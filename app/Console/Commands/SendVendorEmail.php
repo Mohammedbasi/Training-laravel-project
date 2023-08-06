@@ -15,7 +15,7 @@ class SendVendorEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'email:vendor {--email= : vendorEmail} {--body= : The email body}';
+    protected $signature = 'email:vendor {--item= : itemName} {--email= : vendorEmail} {--body= : The email body}';
 //    {--subject= : The email subject}
     /**
      * The console command description.
@@ -30,8 +30,9 @@ class SendVendorEmail extends Command
     public function handle(VendorEmailHelper $emailHelper)
     {
         $vendor_email = $this->option('email');
+        $item_name = $this->option('item');
         $body = $this->option('body');
-        $emailHelper->send($vendor_email,$body);
+        $emailHelper->send($vendor_email,$item_name,$body);
         $this->info("Email sent to $vendor_email successfully!");
     }
 }
