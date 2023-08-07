@@ -24,7 +24,7 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
-
+            @include('layouts.alert',['type'=>'success'])
             <form action="{{ route('login') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
@@ -54,12 +54,12 @@
                 </div>
             </form>
             @if(Route::has('password.request'))
-            <p class="mb-1">
-                <a href="{{ route('password.request') }}">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
-            </p>
+                <p class="mb-1">
+                    <a href="{{ route('password.request') }}">I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
+                </p>
             @endif
         </div>
         <!-- /.login-card-body -->

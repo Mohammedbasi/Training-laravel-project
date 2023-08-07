@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\CustomResetPassword;
 use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\dashboard\BrandController;
 use App\Http\Controllers\dashboard\DashboardController;
@@ -54,8 +55,6 @@ Route::group([
 
     Route::delete('/cart-clear', [CartController::class, 'clear'])
         ->name('front.cart.clear');
-
-
 });
 
 Route::group([
@@ -129,7 +128,7 @@ Route::group([
 ], function () {
 //    Route::get('inventories/add-items/{inventory}', [InventoryController::class, 'addItems'])->name('inventories.add-items');
 //    Route::post('inventories/store-items/{inventory}', [InventoryController::class, 'storeItems'])->name('inventories.store-items');
-    Route::get('inventories/items/{inventory}',[InventoryController::class,'items'])
+    Route::get('inventories/items/{inventory}', [InventoryController::class, 'items'])
         ->name('inventories.items');
 
     Route::get('inventories/trash', [InventoryController::class, 'trash'])->name('inventories.trash');
@@ -146,5 +145,15 @@ Route::group([
     Route::post('item-inventory-store/{item}', [ItemInventoryStore::class, 'store'])
         ->name('item.store-in-inventory');
 });
+Route::middleware('prevent')->group(function () {
 
+    Route::get('forgot-password', [CustomResetPassword::class, 'showForgetForm'])
+        ->name('password.request');
+    Route::post('forgot-password', [CustomResetPassword::class, 'sendResetLink'])
+        ->name('password.email');
+    Route::get('reset-password/{token}', [CustomResetPassword::class, 'showResetForm'])
+        ->name('password.reset');
+    Route::put('reset-password', [CustomResetPassword::class, 'UpdatePassword'])
+        ->name('password.update');
+});
 require __DIR__ . '/auth.php';

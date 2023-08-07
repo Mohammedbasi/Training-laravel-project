@@ -14,7 +14,7 @@ class Item extends Model
 
     protected $fillable = [
         'name', 'image', 'brand_id', 'is_active',
-        'price','purchasable','total_purchases','total_sales'
+        'price', 'purchasable', 'total_purchases', 'total_sales'
     ];
 
     public function brand()
@@ -61,11 +61,5 @@ class Item extends Model
     public function orders()
     {
         return $this->hasMany(PurchaseOrder::class, 'item_id', 'id');
-    }
-
-    public function isQuantityLessThan50()
-    {
-        $totalQuantity = $this->inventories->sum('pivot.quantity');
-        return $totalQuantity < 50;
     }
 }

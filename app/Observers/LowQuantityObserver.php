@@ -59,7 +59,7 @@ class LowQuantityObserver
             if ($totalQuantity < 50) {
                 foreach ($item->vendors as $vendor) {
                     if ($vendor->is_active) {
-                        $vendorEmail = $vendor->email; // Assuming you have a 'vendor' relationship in your Item model
+                        $vendorEmail = $vendor->email;
                         $message = (new LowQuantityNotification($item))
                             ->onQueue('emails');
                         // Send the email notification to the vendor
