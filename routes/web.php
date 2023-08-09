@@ -154,6 +154,6 @@ Route::middleware('prevent')->group(function () {
     Route::get('reset-password/{token}', [CustomResetPassword::class, 'showResetForm'])
         ->name('password.reset');
     Route::put('reset-password', [CustomResetPassword::class, 'UpdatePassword'])
-        ->name('password.update');
+        ->name('password.reset.update');
 });
 require __DIR__ . '/auth.php';

@@ -21,47 +21,40 @@
         <a href="../../index2.html"><b>Admin</b>LTE</a>
     </div>
     <!-- /.login-logo -->
+{{--    <ul>--}}
+{{--        @if($errors->any())--}}
+{{--            @foreach($errors->all() as $error)--}}
+{{--                <li>{{$error}}</li>--}}
+{{--            @endforeach--}}
+{{--        @endif--}}
+{{--    </ul>--}}
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
 
-            <form action="{{ route('password.update') }}" method="post">
+            <form action="{{ route('password.reset.update') }}" method="post">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+                        <input type="email" name="email" class="form-control"
+                               placeholder="Email">
                     </div>
-                    @include('layouts.error',['field'=>'email'])
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="password" name="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
                     </div>
-                    @include('layouts.error',['field'=>'password'])
+                    <x-input-error :messages="$errors->get('password')" class="text-danger" />
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="password" name="password_confirmation" class="form-control"
                                placeholder="Confirm Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
                     </div>
-                    @include('layouts.error',['field'=>'password_confirmation'])
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="text-danger" />
                 </div>
                 <div class="row">
                     <div class="col-12">

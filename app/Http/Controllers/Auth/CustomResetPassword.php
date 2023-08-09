@@ -36,7 +36,7 @@ class CustomResetPassword extends Controller
             : back()->withErrors(['fail' => 'email is in-valid']);
     }
 
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm(Request $request, $token)
     {
         return view('auth.reset-password', [
             'token' => $token,
@@ -45,24 +45,24 @@ class CustomResetPassword extends Controller
 
     public function UpdatePassword(Request $request)
     {
-        $request->validate([
+        $validation = $request->validate([
             'token' => 'required',
             'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required', 'confirmed', 'min:9', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',]
         ]);
+
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+                ]);
 
                 $user->save();
 
                 event(new PasswordReset($user));
             }
         );
-        
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('success', 'You Can login with new password')
             : back()->withErrors(['fail' => 'There is an error occur']);
