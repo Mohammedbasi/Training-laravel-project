@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\TokenAbility;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -22,11 +24,11 @@ class AuthController extends Controller
 
         $user = User::create($request->all());
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
-
+//        $token = $user->createToken('myapptoken')->plainTextToken;
+        $tokens = $this->createTokens($user);
         $response = [
             'user' => $user,
-            'token' => $token,
+            'token' => $tokens,
         ];
 
         return response($response, 201);
@@ -44,10 +46,11 @@ class AuthController extends Controller
         if ($user->tokens() != null) {
             $user->tokens()->delete();
         }
-        $token = $user->createToken('myapptoken', ['*'], Carbon::now()->addMinutes(1))->plainTextToken;
+//        $token = $user->createToken('myapptoken', ['*'], Carbon::now()->addMinutes(1))->plainTextToken;
+        $tokens = $this->createTokens($user);
         $response = [
             'user' => $user,
-            'token' => $token,
+            'tokens' => $tokens,
         ];
         return response($response, 201);
     }
@@ -78,5 +81,28 @@ class AuthController extends Controller
             : response()->json(
                 ['failed' => 'There is an error occur']
             );
+    }
+
+    public function refresh()
+    {
+        $user = auth()->user();
+
+        $user->tokens()->delete();
+
+        return $this->createTokens($user);
+    }
+
+    public function createTokens($user): JsonResponse
+    {
+        $access_token = $user->createToken('access-token', [TokenAbility::ACCESS_API->value],
+            Carbon::now()->addMinutes(config('sanctum.token_expiration')));
+
+        $refresh_token = $user->createToken('refresh_token', [TokenAbility::ISSUE_ACCESS_TOKEN->value],
+            Carbon::now()->addMinutes(config('sanctum.refresh_expiration')));
+
+        return response()->json([
+            'token' => $access_token->plainTextToken,
+            'refresh_token' => $refresh_token->plainTextToken,
+        ]);
     }
 }
