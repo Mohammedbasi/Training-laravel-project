@@ -24,11 +24,11 @@ class UserEditRequest extends FormRequest
     {
         return [
             'username' => [
+                'sometimes',
                 'required',
                 'string',
                 'min:5',
-
-                Rule::unique('users', 'username')->ignore($this->route('user')??0)
+                Rule::unique('users', 'username')->ignore($this->route('user') ?? 0)
             ],
             'first_name' => [
                 'string',
@@ -47,9 +47,10 @@ class UserEditRequest extends FormRequest
                 Rule::in(['inactive' => 0, 'active' => 1])
             ],
             'email' => [
+                'sometimes',
                 'required',
                 'string',
-                Rule::unique('users', 'email')->ignore($this->route('user')??0),
+                Rule::unique('users', 'email')->ignore($this->route('user') ?? 0),
                 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'
             ]
         ];

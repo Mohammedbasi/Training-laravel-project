@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Filters\FilterFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,10 +13,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, \Illuminate\Auth\Passwords\CanResetPassword;
+    use /*HasApiTokens*/
+        PassportHasApiTokens, HasFactory, Notifiable, SoftDeletes, \Illuminate\Auth\Passwords\CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -120,4 +123,10 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(PurchaseOrder::class, 'user_id', 'id');
     }
 
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->first_name . ' ' . $this->last_name,
+        );
+    }
 }

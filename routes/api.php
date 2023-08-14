@@ -2,6 +2,7 @@
 
 use App\Enums\TokenAbility;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +26,14 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth:sanctum', 'ability:' . TokenAbility::ACCESS_API->value],
+    'middleware' => ['auth:sanctum', 'admin', 'ability:' . TokenAbility::ACCESS_API->value],
 ], function () {
     Route::get('/items', function () {
         return Item::all();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+Route::apiResource('/users', UserController::class);
 
 Route::post('/refresh-token', [AuthController::class, 'refresh'])
     ->middleware(['ability:' . TokenAbility::ISSUE_ACCESS_TOKEN->value, 'auth:sanctum']);
