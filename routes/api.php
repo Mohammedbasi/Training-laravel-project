@@ -35,6 +35,7 @@ Route::group([
     Route::apiResource('/users', UserController::class);
 });
 
+
 Route::post('/refresh-token', [AuthController::class, 'refresh'])
     ->middleware(['ability:' . TokenAbility::ISSUE_ACCESS_TOKEN->value, 'auth:sanctum']);
 

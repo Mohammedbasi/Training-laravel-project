@@ -20,18 +20,11 @@ class UserResource extends JsonResource
                 'first name' => $this->first_name,
                 'last_name' => $this->last_name,
             ],
-            'full name' => $this->full_name,
+            'full_name' => $this->full_name,
             'username' => $this->username,
-            'is admin' => $this->is_admin,
-            'is active' => $this->is_active,
-            'address' => [
-                'addressable id' => $this->address->addressable_id,
-                'addressable type' => $this->address->addressable_type,
-                'city' => $this->address->city->name,
-                'district' => $this->address->district,
-                'street' => $this->address->street,
-                'phone' => $this->address->phone,
-            ]
+            'is_admin' => $this->is_admin,
+            'is_active' => $this->is_active,
+            'address' => new AddressResource($this->address),
         ];
     }
 }
