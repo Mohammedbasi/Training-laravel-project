@@ -3,7 +3,12 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,7 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+        $this->renderable(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'unauthorized'
@@ -48,6 +53,34 @@ class Handler extends ExceptionHandler
                     'message' => 'error in Validation'
                 ], 401);
             }
+        });
+
+        $this->reportable(function (QueryException $e) {
+            if ($e->getCode() === '23000') {
+                Log::warning($e->getMessage());
+                return false;
+            }
+            return true;
+        });
+        $this->renderable(function (QueryException $e, Request $request) {
+            if ($e->getCode() == 23000) {
+                $message = 'Foreign key constraint failed';
+            } else {
+                $message = $e->getMessage();
+            }
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => $message,
+                ], 400);
+            }
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    'message' => $e->getMessage()
+                ])
+                ->with('info', $message);
         });
     }
 }

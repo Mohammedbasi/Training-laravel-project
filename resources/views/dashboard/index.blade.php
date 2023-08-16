@@ -6,6 +6,8 @@
     'baseBread'=>'Dashboard',
     'childBread'=>'Starter'
 ])
+    @include('layouts.alert',['type'=>'success'])
+    @include('layouts.alert',['type'=>'info'])
     <div class="row">
         <div class="col-lg-6">
             <div class="card">

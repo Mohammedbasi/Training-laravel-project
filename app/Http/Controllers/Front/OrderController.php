@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Exceptions\InvalidPurchaseException;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\Item;
@@ -39,6 +40,8 @@ class OrderController extends Controller
             'item_id' => $item_id,
             'quantity' => $quantity
         ]);
+        unset($cart[$id]);
+        session()->put('cart', $cart);
 //        $this->decreaseQuantity($item_id, $inventory_id, $quantity);
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
@@ -48,6 +51,9 @@ class OrderController extends Controller
     {
 
         $cart = session()->get('cart', []);
+        if (count($cart) == 0) {
+            throw new InvalidPurchaseException('Cart is empty');
+        }
         foreach ($cart as $item_id => $attributes) {
             $inventory_id = $this->inventoryWithLargestQuantity($item_id);
             if (!$inventory_id) {
@@ -67,6 +73,7 @@ class OrderController extends Controller
             ]);
             //$this->decreaseQuantity($item_id, $inventory_id, $attributes['quantity']);
         }
+        session()->forget('cart');
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
     }
