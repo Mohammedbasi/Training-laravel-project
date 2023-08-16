@@ -19,7 +19,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('address')->filter($request->query())->paginate();
-        return UserResource::collection($users);
+        $data = UserResource::collection($users);
+        return response()->success($data, 'Users listed successfully', 200);
     }
 
     /**
@@ -33,7 +34,8 @@ class UserController extends Controller
         ]);
 
         $user = User::create($request->all());
-        return new UserResource($user);
+        return response()->success(new UserResource($user), 'User created Successfully', 201);
+
     }
 
     /**
@@ -41,7 +43,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return response()->success(new UserResource($user), 'User listed successfully', 200);
     }
 
     /**
@@ -50,7 +52,7 @@ class UserController extends Controller
     public function update(UserEditRequest $request, User $user)
     {
         $user->update($request->all());
-        return new UserResource($user);
+        return response()->success(new UserResource($user), 'User Updated successfully', 200);
     }
 
     /**
@@ -61,6 +63,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return new UserResource($user);
+        return response()->success(new UserResource($user), 'User Deleted successfully', 200);
     }
 }

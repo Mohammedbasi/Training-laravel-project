@@ -32,8 +32,9 @@ Route::group([
         return Item::all();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::apiResource('/users', UserController::class);
 });
+
+Route::apiResource('/users', UserController::class);
 
 
 Route::post('/refresh-token', [AuthController::class, 'refresh'])
