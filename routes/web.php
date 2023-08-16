@@ -9,6 +9,7 @@ use App\Http\Controllers\dashboard\ItemController;
 use App\Http\Controllers\dashboard\ItemInventoryStore;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
+use App\Http\Controllers\dashboard\WelcomeEmailController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -89,6 +90,16 @@ Route::group([
     Route::get('/trash', [UserController::class, 'trash'])->name('user.trash');
     Route::put('/restore/{user}', [UserController::class, 'restore'])->name('user.restore');
     Route::delete('/force-delete/{user}', [UserController::class, 'forceDelete'])->name('user.force-delete');
+
+});
+
+Route::group([
+    'middleware' => 'admin',
+], function () {
+    Route::get('welcome-email', [WelcomeEmailController::class, 'create'])
+        ->name('welcome.create');
+    Route::post('welcome-email', [WelcomeEmailController::class, 'send'])
+        ->name('welcome.send');
 });
 
 Route::group([
@@ -157,3 +168,5 @@ Route::middleware('prevent')->group(function () {
         ->name('password.reset.update');
 });
 require __DIR__ . '/auth.php';
+
+
