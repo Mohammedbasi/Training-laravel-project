@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\EmailServiceContract;
+use App\Helpers\EmailService;
 use App\Models\InventoryItem;
 use App\Models\Item;
 use App\Models\PurchaseOrder;
@@ -38,5 +40,7 @@ class AppServiceProvider extends ServiceProvider
             DecreaseQuantityObserver::class,
         ]);
         VendorItem::observe(TotalPurchaseObserver::class);
+
+        $this->app->bind(EmailServiceContract::class, EmailService::class);
     }
 }

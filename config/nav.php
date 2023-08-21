@@ -13,8 +13,16 @@ return [
     [
         'icon' => 'nav-icon fas fa-tachometer-alt',
         'route' => 'welcome.create',
-        'title' => 'Welcome Message',
+        'title' => 'User Message',
         'active' => 'welcome.create',
+        'user' => false,
+        'admin' => true,
+    ],
+    [
+        'icon' => 'nav-icon fas fa-tachometer-alt',
+        'route' => 'vendor.welcome.create',
+        'title' => 'Vendor Message',
+        'active' => 'vendor.welcome.create',
         'user' => false,
         'admin' => true,
     ],

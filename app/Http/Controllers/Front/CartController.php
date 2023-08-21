@@ -4,14 +4,21 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public $cart;
+
+    public function __construct(CartRepository $cart)
+    {
+        $this->cart = $cart;
+    }
 
     public function index()
     {
-        $cart = session()->get('cart', []);
+        $cart = $this->cart->get();
         $items = Item::with('brand')
             ->active()
             ->paginate();
@@ -22,29 +29,18 @@ class CartController extends Controller
 
     public function addToCart(Request $request, string $id)
     {
-        $item  = Item::findOrFail($id);
+        $item = Item::findOrFail($id);
         $quantity = $request->post('quantity', 1);
 
         if ($quantity < 1) {
             return redirect()->route('front.items.index')
                 ->with('info', 'Quantity can not be less than 1');
         }
-        if(!$item->purchasable){
+        if (!$item->purchasable) {
             return redirect()->route('front.items.index')
                 ->with('info', 'Item Is Not Purchasable');
         }
-        $cart = session()->get('cart', []);
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] += $quantity;
-        } else {
-            $cart[$id] = [
-                'quantity' => $quantity,
-                'created_at' => now()->toDateTimeString(),
-                'updated_at' => now()->toDateTimeString(),
-            ];
-        }
-
-        session()->put('cart', $cart);
+        $this->cart->add($id, $quantity);
 
         return redirect()->route('front.items.index')
             ->with('success', 'Item Added To Cart Successfully');
@@ -52,17 +48,15 @@ class CartController extends Controller
 
     public function remove(string $id)
     {
-        $cart = session()->get('cart',[]);
-        unset($cart[$id]);
-        session()->put('cart',$cart);
+        $this->cart->delete($id);
 
         return redirect()->route('front.cart.index')
-            ->with('success','Item Removed From Cart');
+            ->with('success', 'Item Removed From Cart');
     }
 
     public function clear()
     {
-        session()->forget('cart');
+        $this->cart->empty();
 
         return redirect()->route('front.cart.index')
             ->with('success', 'Cart cleared.');

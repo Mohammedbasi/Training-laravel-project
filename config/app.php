@@ -170,6 +170,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\CustomResponseServiceProvider::class,
+        App\Providers\CartServiceProvider::class,
     ])->toArray(),
 
     /*

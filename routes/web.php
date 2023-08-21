@@ -98,8 +98,12 @@ Route::group([
 ], function () {
     Route::get('welcome-email', [WelcomeEmailController::class, 'create'])
         ->name('welcome.create');
-    Route::post('welcome-email', [WelcomeEmailController::class, 'send'])
+    Route::get('vendor-welcome-email', [WelcomeEmailController::class, 'createVendor'])
+        ->name('vendor.welcome.create');
+    Route::post('welcome-email', [WelcomeEmailController::class, 'sendUser'])
         ->name('welcome.send');
+    Route::post('vendor-welcome-email', [WelcomeEmailController::class, 'sendVendor'])
+        ->name('vendor.welcome.send');
 });
 
 Route::group([

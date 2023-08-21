@@ -7,10 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\Item;
 use App\Models\PurchaseOrder;
+use App\Repositories\Cart\CartRepository;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public $cart;
+
+    public function __construct(CartRepository $cart)
+    {
+        $this->cart = $cart;
+    }
 
     public function index()
     {
@@ -21,7 +28,7 @@ class OrderController extends Controller
 
     public function purchaseSingle(string $id)
     {
-        $cart = session()->get('cart', []);
+        $cart = $this->cart->get();
         $item_id = $id;
         $quantity = $cart[$item_id]['quantity'];
         $inventory_id = $this->inventoryWithLargestQuantity($item_id);
@@ -40,8 +47,9 @@ class OrderController extends Controller
             'item_id' => $item_id,
             'quantity' => $quantity
         ]);
-        unset($cart[$id]);
-        session()->put('cart', $cart);
+
+        $this->cart->delete($id);
+
 //        $this->decreaseQuantity($item_id, $inventory_id, $quantity);
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
@@ -50,7 +58,7 @@ class OrderController extends Controller
     public function purchaseAll()
     {
 
-        $cart = session()->get('cart', []);
+        $cart = $this->cart->get();
         if (count($cart) == 0) {
             throw new InvalidPurchaseException('Cart is empty');
         }
@@ -73,7 +81,7 @@ class OrderController extends Controller
             ]);
             //$this->decreaseQuantity($item_id, $inventory_id, $attributes['quantity']);
         }
-        session()->forget('cart');
+        $this->cart->empty();
         return redirect()->route('front.cart.index')
             ->with('success', 'Order in-progress, please wait for delivered');
     }
