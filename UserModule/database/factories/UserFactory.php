@@ -1,9 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace UserModule\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace UserModule\app\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use UserModule\App\Models\User;
 
 class UserRequest extends FormRequest
 {

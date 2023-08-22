@@ -1,15 +1,14 @@
 <?php
 
-namespace Database\Seeders;
+namespace UserModule\database\seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use UserModule\App\Models\User;
 
 class NewUserSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      */
     public function run(): void
     {

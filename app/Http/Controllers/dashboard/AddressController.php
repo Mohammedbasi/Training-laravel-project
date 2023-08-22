@@ -4,10 +4,10 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
-use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Exception;
+use UserModule\App\Models\User;
 
 
 class AddressController extends Controller

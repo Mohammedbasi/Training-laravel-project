@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\UserRequest;
-use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use UserModule\App\Http\Requests\UserEditRequest;
+use UserModule\App\Http\Requests\UserRequest;
+use UserModule\App\Models\User;
 
 class UserController extends Controller
 {

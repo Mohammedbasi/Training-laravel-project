@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace UserModule\app\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Response;
+use UserModule\App\Http\Requests\UserEditRequest;
+use UserModule\App\Http\Requests\UserRequest;
+use UserModule\App\Http\Resources\UserResource;
+use UserModule\app\Models\User;
 
 class UserController extends Controller
 {

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Contracts\EmailServiceContract;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use UserModule\App\Models\User;
 
 class WelcomeEmailController extends Controller
 {

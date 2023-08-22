@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace UserModule\app\Models;
 
 use App\Filters\FilterFactory;
+use App\Models\Address;
+use App\Models\PurchaseOrder;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,12 +15,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
 use Laravel\Sanctum\HasApiTokens;
-use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use /*HasApiTokens*/
-        PassportHasApiTokens, HasFactory, Notifiable, SoftDeletes, \Illuminate\Auth\Passwords\CanResetPassword;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, \Illuminate\Auth\Passwords\CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
