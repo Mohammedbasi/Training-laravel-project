@@ -7,7 +7,6 @@ use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\InventoryController;
 use App\Http\Controllers\dashboard\ItemController;
 use App\Http\Controllers\dashboard\ItemInventoryStore;
-use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
 use App\Http\Controllers\dashboard\WelcomeEmailController;
 use App\Http\Controllers\Front\CartController;
@@ -72,29 +71,10 @@ Route::group([
         ->name('purchase.history');
 });
 
-Route::group([
-    'prefix' => 'user',
-    'middleware' => 'admin',
-], function () {
-    Route::get('/address/{user}', [AddressController::class, 'edit'])
-        ->name('user.address.edit');
-    Route::put('/address/{user}', [AddressController::class, 'update'])
-        ->name('user.address.update');
-    Route::get('all', [UserController::class, 'index'])->name('user.index');
-    Route::get('/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/store', [UserController::class, 'store'])->name('user.store');
-    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/update{user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/delete{user}', [UserController::class, 'delete'])->name('user.delete');
 
-    Route::get('/trash', [UserController::class, 'trash'])->name('user.trash');
-    Route::put('/restore/{user}', [UserController::class, 'restore'])->name('user.restore');
-    Route::delete('/force-delete/{user}', [UserController::class, 'forceDelete'])->name('user.force-delete');
-
-});
 
 Route::group([
-    'middleware' => 'admin',
+    'middleware' => ['admin','active'],
 ], function () {
     Route::get('welcome-email', [WelcomeEmailController::class, 'create'])
         ->name('welcome.create');
@@ -107,7 +87,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'admin',
+    'middleware' => ['admin','active'],
 ], function () {
 
     Route::get('vendors/address/{vendor}', [AddressController::class, 'edit'])
@@ -121,7 +101,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'admin'
+    'middleware' => ['admin','active']
 ], function () {
     Route::get('brands/trash', [BrandController::class, 'trash'])->name('brands.trash');
     Route::put('brands/restore/{brand}', [BrandController::class, 'restore'])->name('brands.restore');
@@ -130,7 +110,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'admin'
+    'middleware' => ['admin','active']
 ], function () {
     Route::get('items/trash', [ItemController::class, 'trash'])->name('items.trash');
     Route::put('items/restore/{brand}', [ItemController::class, 'restore'])->name('items.restore');
@@ -139,7 +119,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'admin'
+    'middleware' => ['admin','active']
 ], function () {
 //    Route::get('inventories/add-items/{inventory}', [InventoryController::class, 'addItems'])->name('inventories.add-items');
 //    Route::post('inventories/store-items/{inventory}', [InventoryController::class, 'storeItems'])->name('inventories.store-items');
@@ -153,7 +133,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'admin'
+    'middleware' => ['admin','active']
 ], function () {
     Route::get('item-inventory-add/{item}', [ItemInventoryStore::class, 'index'])
         ->name('item.add-to-inventory');

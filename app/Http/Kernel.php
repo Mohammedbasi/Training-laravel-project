@@ -6,6 +6,7 @@ use App\Http\Middleware\AllowAdminOnly;
 use App\Http\Middleware\AllowUserOnly;
 use App\Http\Middleware\PreventAuthUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use UserModule\app\Http\Middleware\UserModuleMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -71,5 +72,6 @@ class Kernel extends HttpKernel
         'user' => AllowUserOnly::class,
         'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+        'active' => UserModuleMiddleware::class,
     ];
 }

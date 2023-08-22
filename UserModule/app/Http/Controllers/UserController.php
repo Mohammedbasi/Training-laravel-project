@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\dashboard;
+namespace UserModule\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
@@ -15,12 +15,12 @@ class UserController extends Controller
     {
         $request = request();
         $users = User::with('address')->filter($request->query())->paginate(10);
-        return view('dashboard.users.index', compact('users'));
+        return view('dashboard.users::index', compact('users'));
     }
 
     public function create()
     {
-        return view('dashboard.users.create');
+        return view('dashboard.users::create');
     }
 
     public function store(UserRequest $request)
@@ -41,7 +41,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             return redirect()->route('user.index')->with('info', 'Page not found . . .');
         }
-        return view('dashboard.users.edit', compact('user'));
+        return view('dashboard.users::edit', compact('user'));
     }
 
     public function update(UserEditRequest $request, string $id)
@@ -63,7 +63,7 @@ class UserController extends Controller
     public function trash()
     {
         $users = User::onlyTrashed()->paginate(10);
-        return view('dashboard.users.softDelete', compact('users'));
+        return view('dashboard.users::softDelete', compact('users'));
     }
 
     public function restore(string $id)
