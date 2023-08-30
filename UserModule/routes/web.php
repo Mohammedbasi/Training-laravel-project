@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\dashboard\AddressController;
 use Illuminate\Support\Facades\Route;
+use UserModule\app\Http\Controllers\SocialiteController;
 use UserModule\app\Http\Controllers\UserController;
 
 Route::group([
     'prefix' => 'user',
-    'middleware' => ['admin','active'],
+    'middleware' => ['admin', 'active'],
 ], function () {
     Route::get('/address/{user}', [AddressController::class, 'edit'])
         ->name('user.address.edit');
@@ -22,5 +23,9 @@ Route::group([
     Route::get('/trash', [UserController::class, 'trash'])->name('user.trash');
     Route::put('/restore/{user}', [UserController::class, 'restore'])->name('user.restore');
     Route::delete('/force-delete/{user}', [UserController::class, 'forceDelete'])->name('user.force-delete');
+
+    Route::get('/auth/redirect', [SocialiteController::class, 'redirect'])
+        ->name('auth.redirect');
+    Route::get('/auth/callback', [SocialiteController::class, 'callback']);
 
 });

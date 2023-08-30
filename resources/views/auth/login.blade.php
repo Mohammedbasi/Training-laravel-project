@@ -38,21 +38,18 @@
                     @include('layouts.error',['field'=>'password'])
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
                     <!-- /.col -->
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
+            <div class="row mt-2">
+                <div class="col-6">
+                    <a href="{{ route('auth.redirect') }}" class="btn btn-dark btn-block">Github</a>
+                </div>
+            </div>
             @if(Route::has('password.request'))
                 <p class="mb-1">
                     <a href="{{ route('password.request') }}">I forgot my password</a>
